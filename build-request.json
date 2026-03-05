@@ -1,0 +1,83 @@
+{
+  "kind": "build_request",
+  "title": "Add user accounts, farmer testimonials, and mobile optimization",
+  "projectName": "Gelephu Farmers Academy",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Add user account functionality so authenticated farmers can track their training progress. Display a personal dashboard showing enrolled courses, completion status, and any earned achievements or milestones.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-recent"
+        ],
+        "quotes": [
+          "User accounts so farmers can track their progress"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Authenticated users can see a 'My Progress' or profile section showing their enrolled courses",
+        "Each enrolled course shows a completion status or progress indicator",
+        "The progress data is persisted in the backend per user principal",
+        "Unauthenticated users are prompted to log in via Internet Identity to access progress tracking"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Add a farmer testimonials section where real testimonials can be collected and displayed over time. Include a submission form for farmers to submit their own testimonial (name, location, quote, farming area) and display approved testimonials in a dedicated section on the homepage or a testimonials page.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-recent"
+        ],
+        "quotes": [
+          "A way to collect and display real farmer testimonials over time"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A testimonial submission form is accessible to users, collecting name, location, quote, and farming area",
+        "Submitted testimonials are stored in the backend",
+        "Admins can approve or reject submitted testimonials via the admin panel",
+        "Approved testimonials are displayed in a testimonials section (homepage or dedicated page)",
+        "The testimonials display gracefully with fallback placeholder content if no testimonials exist yet"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Audit and improve mobile responsiveness across all pages. Ensure navigation, cards, tables, hero sections, dashboards, and forms are fully usable on small screens (320px–768px). Fix any layout overflow, font size, spacing, or touch target issues found.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-recent"
+        ],
+        "quotes": [
+          "Mobile optimization check — farmers likely use phones more than desktops"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All pages render without horizontal scroll on a 375px wide screen",
+        "Navigation collapses into a usable mobile menu",
+        "Cards, tables, and dashboards stack or scroll correctly on small screens",
+        "Buttons and interactive elements have adequate touch target sizes (minimum 44x44px)",
+        "Font sizes remain readable on mobile without requiring zoom",
+        "The hero section, forms, and FAQ accordion are fully functional on mobile"
+      ]
+    }
+  ],
+  "constraints": [
+    "Preserve all existing features: search, language toggle, downloadable resources, blog, FAQ, WhatsApp contact button (77421966), store, SOPs, training, and GDP dashboard",
+    "Internet Identity remains the only authentication method",
+    "All backend logic must remain in the single main actor (backend/main.mo)"
+  ],
+  "nonGoals": [
+    "Third-party authentication providers",
+    "Email or SMS notifications",
+    "Real-time chat or WebSocket features",
+    "Native mobile app development"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

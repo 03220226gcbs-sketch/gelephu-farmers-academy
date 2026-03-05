@@ -1,0 +1,211 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Add user accounts, farmer testimonials, and mobile optimization",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add user progress tracking dashboard for authenticated farmers to view enrolled courses, completion status, and achievements",
+      "acceptanceCriteria": [
+        "Authenticated users can see a 'My Progress' or profile section showing their enrolled courses",
+        "Each enrolled course shows a completion status or progress indicator",
+        "The progress data is persisted in the backend per user principal",
+        "Unauthenticated users are prompted to log in via Internet Identity to access progress tracking"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add 'MyProgress' to the PageView union type and wire a new navigation case to render the MyProgressPage component. Ensure authenticated users can access this page from the header or profile menu."
+        },
+        {
+          "path": "frontend/src/pages/MyProgressPage.tsx",
+          "operation": "create",
+          "description": "Create a protected page component that checks authentication using the authorization component. Use useGetCallerUserProfile to get the user profile and useGetUserProgress to fetch enrolled courses and achievements. Display a dashboard with sections for: user profile summary, list of enrolled courses with progress bars (using enrollment.progress percentage), and achievements/milestones earned. Show an access-denied screen for unauthenticated users. Verify the authorization component's usage instructions before implementing authentication checks."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add two new React Query hooks: useGetUserProgress (query) that calls actor.getUserProgress() to fetch enrollments and profile, and useUpdateEnrollmentProgress (mutation) that calls actor.updateEnrollmentProgress(enrollmentId, progress) to update a user's course progress. Include proper error handling and query invalidation on mutations."
+        },
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "modify",
+          "description": "Add a 'My Progress' navigation link in the desktop and mobile menus that calls onNavigate('MyProgress'). Show this link only when the user is authenticated. Position it near the profile or training section in the navigation hierarchy."
+        },
+        {
+          "path": "frontend/src/components/CourseProgressCard.tsx",
+          "operation": "create",
+          "description": "Create a reusable component that displays a single course enrollment with course title, description, start/end dates, production type badge, and a progress bar showing completion percentage. Include a button to update progress (for demo/testing purposes) or mark as complete when progress reaches 100%."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add farmer testimonials section with submission form and admin approval workflow",
+      "acceptanceCriteria": [
+        "A testimonial submission form is accessible to users, collecting name, location, quote, and farming area",
+        "Submitted testimonials are stored in the backend",
+        "Admins can approve or reject submitted testimonials via the admin panel",
+        "Approved testimonials are displayed in a testimonials section (homepage or dedicated page)",
+        "The testimonials display gracefully with fallback placeholder content if no testimonials exist yet"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add 'Testimonials' to the PageView union type and wire a navigation case to render the TestimonialsPage component. This page should be publicly accessible without authentication."
+        },
+        {
+          "path": "frontend/src/pages/TestimonialsPage.tsx",
+          "operation": "create",
+          "description": "Create a public page that displays approved testimonials in a grid or carousel layout. Use useGetApprovedTestimonials hook to fetch testimonials. Include a prominent 'Share Your Story' button that opens a testimonial submission dialog. Display farmer name, location, farming area, and testimonial text in attractive cards. Show placeholder content (e.g., 'Be the first to share your farming success story!') when no testimonials exist."
+        },
+        {
+          "path": "frontend/src/components/TestimonialSubmissionDialog.tsx",
+          "operation": "create",
+          "description": "Create a dialog component with a form collecting farmer name (text), location (text), farming area (text), and testimonial text (textarea). On submit, call the useSubmitTestimonial mutation hook. Show success message after submission explaining that the testimonial is pending admin approval. Include validation for required fields and character limits."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add three new hooks: useGetApprovedTestimonials (query) calling actor.getApprovedTestimonials(), useGetAllTestimonials (query) calling actor.getAllTestimonials() for admin use, and useSubmitTestimonial (mutation) calling actor.submitTestimonial(farmerName, location, farmingArea, testimonialText). Include proper error handling and query invalidation."
+        },
+        {
+          "path": "frontend/src/components/admin/TestimonialManagement.tsx",
+          "operation": "create",
+          "description": "Create an admin component that lists all testimonials in a table with columns for farmer name, location, farming area, excerpt of testimonial text, submission date, and approval status. Include action buttons to approve (calls useApproveTestimonial) or delete (calls useDeleteTestimonial) each testimonial. Filter by status (pending/approved) using tabs or a dropdown. Show pending testimonials prominently for admin review."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add two new mutation hooks: useApproveTestimonial calling actor.approveTestimonial(testimonialId) and useDeleteTestimonial calling actor.deleteTestimonial(testimonialId). Both should invalidate the testimonials query cache on success and show toast notifications."
+        },
+        {
+          "path": "frontend/src/pages/AdminPage.tsx",
+          "operation": "modify",
+          "description": "Add a new 'Testimonials' tab to the admin dashboard tabs array. Render the TestimonialManagement component when this tab is active. Position it logically near the Submissions or Content Management tabs."
+        },
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "modify",
+          "description": "Add a 'Testimonials' navigation link in the desktop and mobile menus that calls onNavigate('Testimonials'). Position it near the Success Stories or Training sections in the navigation hierarchy."
+        },
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Add a testimonials preview section below the success stories carousel. Display 2-3 approved testimonials in a compact card layout with a 'View All Testimonials' button that navigates to the TestimonialsPage. Use the useGetApprovedTestimonials hook and slice the results to show only the most recent ones."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Audit and improve mobile responsiveness across all pages for screens 320px–768px",
+      "acceptanceCriteria": [
+        "All pages render without horizontal scroll on a 375px wide screen",
+        "Navigation collapses into a usable mobile menu",
+        "Cards, tables, and dashboards stack or scroll correctly on small screens",
+        "Buttons and interactive elements have adequate touch target sizes (minimum 44x44px)",
+        "Font sizes remain readable on mobile without requiring zoom",
+        "The hero section, forms, and FAQ accordion are fully functional on mobile"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "modify",
+          "description": "Audit and improve mobile navigation menu for screens 320px–768px. Ensure the mobile menu toggle button is at least 44x44px, the mobile menu slides in smoothly, navigation links are vertically stacked with adequate spacing (min 44px height), and all interactive elements are easily tappable. Test that the language toggle and login button work correctly in the mobile menu."
+        },
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Audit hero section and success stories carousel for mobile. Ensure hero heading and text scale down appropriately on small screens (use responsive text utilities like text-2xl sm:text-4xl), hero buttons stack vertically on mobile with full width, and the carousel controls are touch-friendly with adequate spacing. Verify the testimonials preview section (added in REQ-2) stacks cards vertically on mobile."
+        },
+        {
+          "path": "frontend/src/pages/AdminPage.tsx",
+          "operation": "modify",
+          "description": "Improve admin dashboard mobile layout. Convert tabs to a dropdown select or scrollable horizontal tabs on mobile. Ensure all admin tables (users, courses, projects, testimonials, SOPs, submissions) have horizontal scroll containers on small screens. Stack form fields vertically in dialogs and ensure all input fields and buttons are full-width on mobile with min 44px height."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "modify",
+          "description": "Audit production dashboard mobile responsiveness. Ensure tabs stack or scroll horizontally on mobile. Metric cards should stack vertically on small screens with full width. Verify all text is readable without zoom and spacing is adequate for touch interaction."
+        },
+        {
+          "path": "frontend/src/pages/GDPDashboardPage.tsx",
+          "operation": "modify",
+          "description": "Improve GDP dashboard mobile layout. Stack stat cards vertically on mobile with full width. Ensure the progress bar and milestone tracker are responsive and don't overflow. Use responsive grid utilities (grid-cols-1 sm:grid-cols-2 lg:grid-cols-4) for card layout."
+        },
+        {
+          "path": "frontend/src/pages/FAQPage.tsx",
+          "operation": "modify",
+          "description": "Audit FAQ accordion for mobile usability. Ensure accordion headers are min 44px height with adequate padding. Text should be readable without zoom. Test that accordion items expand/collapse smoothly on mobile devices."
+        },
+        {
+          "path": "frontend/src/pages/ContactPage.tsx",
+          "operation": "modify",
+          "description": "Improve contact form mobile layout. Stack all form fields vertically with full width on mobile. Ensure input fields, textareas, and buttons have min 44px height. Add adequate spacing between fields (min 16px). Verify the success confirmation card displays correctly on mobile."
+        },
+        {
+          "path": "frontend/src/pages/StorePage.tsx",
+          "operation": "modify",
+          "description": "Audit store page mobile responsiveness. Ensure product cards stack vertically on mobile or use a responsive grid (grid-cols-1 sm:grid-cols-2 lg:grid-cols-3). Quantity controls should be touch-friendly with min 44x44px buttons. Purchase dialogs should be full-width on mobile with properly sized action buttons."
+        },
+        {
+          "path": "frontend/src/pages/TrainingPage.tsx",
+          "operation": "modify",
+          "description": "Improve training page mobile layout. Convert tabs to scrollable or dropdown on mobile. Stack course cards, success story cards, and download resources vertically on small screens. Ensure enroll buttons and resource download links are min 44px height and full-width on mobile."
+        },
+        {
+          "path": "frontend/src/pages/TechniquesPage.tsx",
+          "operation": "modify",
+          "description": "Audit techniques page for mobile. Ensure the search input is full-width on mobile with adequate height (min 44px). Technique cards should stack vertically on mobile. Icons and text should scale appropriately for small screens."
+        },
+        {
+          "path": "frontend/src/pages/SOPsPage.tsx",
+          "operation": "modify",
+          "description": "Improve SOPs page mobile layout. Convert production type tabs to scrollable horizontal tabs or dropdown on mobile. Ensure accordion items are touch-friendly with min 44px headers. SOP content (procedures, roles, quality standards) should be readable without horizontal scroll on mobile."
+        },
+        {
+          "path": "frontend/src/pages/ProjectsPage.tsx",
+          "operation": "modify",
+          "description": "Audit projects page mobile responsiveness. Convert tabs to scrollable or dropdown on mobile. Project cards should stack vertically on small screens. Ensure project dates, status badges, and outcomes text are readable and properly spaced on mobile."
+        },
+        {
+          "path": "frontend/src/pages/NewsPage.tsx",
+          "operation": "modify",
+          "description": "Improve news page mobile layout. News article cards should stack vertically with full width on mobile. Ensure expandable content works smoothly on touch devices. Category badges and dates should remain visible and readable on small screens."
+        },
+        {
+          "path": "frontend/src/pages/PedagogyPage.tsx",
+          "operation": "modify",
+          "description": "Audit pedagogy page for mobile usability. Ensure hero section text scales down appropriately. Convert framework/pitch deck tabs to mobile-friendly controls. The pitch deck navigation and framework document should be readable and navigable on mobile devices."
+        },
+        {
+          "path": "frontend/src/pages/MyProgressPage.tsx",
+          "operation": "modify",
+          "description": "Ensure the new My Progress page (created in REQ-1) is mobile-responsive. Stack profile summary and course progress cards vertically on mobile. Progress bars should be full-width and achievements should be displayed in a mobile-friendly grid or list."
+        },
+        {
+          "path": "frontend/src/pages/TestimonialsPage.tsx",
+          "operation": "modify",
+          "description": "Ensure the new Testimonials page (created in REQ-2) is mobile-responsive. Testimonial cards should stack vertically on mobile. The 'Share Your Story' button should be full-width or prominently positioned with min 44px height. The submission dialog should be mobile-optimized with full-width fields."
+        },
+        {
+          "path": "frontend/src/components/Footer.tsx",
+          "operation": "modify",
+          "description": "Audit footer mobile layout. Ensure footer sections stack vertically on mobile. Links should have adequate touch targets (min 44px height with padding). Contact information should be readable and tappable on small screens."
+        },
+        {
+          "path": "frontend/src/components/FloatingContactButton.tsx",
+          "operation": "modify",
+          "description": "Verify floating contact button is mobile-friendly. Ensure the button and expanded contact links are at least 44x44px and don't overlap with other mobile UI elements. Test touch interaction on small screens."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add global mobile-specific CSS utilities if needed. Ensure base font size is readable on mobile (min 16px for body text to prevent zoom on iOS). Add utilities for common mobile patterns like full-width containers, touch-friendly spacing, and responsive text sizing. Review and adjust any fixed widths or max-widths that might cause horizontal scroll on small screens."
+        }
+      ]
+    }
+  ]
+}

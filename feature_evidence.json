@@ -1,0 +1,85 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-add-user-account-functionality-so-authenticated-farmers-can-track-their-training-progress-display-a-personal-dashboard-showing-enrolled-courses-completion-status-and-any-earned-achievements-or-milestones",
+      "featureTitle": "Add user account functionality so authenticated farmers can track their training progress. Display a personal dashboard showing enrolled courses, completion status, and any earned achievements or milestones.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Header.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/MyProgressPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "user-approval@3.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-farmer-testimonials-section-where-real-testimonials-can-be-collected-and-displayed-over-time-include-a-submission-form-for-farmers-to-submit-their-own-testimonial-name-location-quote-farming-area-and-display-approved-testimonials-in-a-dedicated-section-on-the-homepage-or-a-testimonials-page",
+      "featureTitle": "Add a farmer testimonials section where real testimonials can be collected and displayed over time. Include a submission form for farmers to submit their own testimonial (name, location, quote, farming area) and display approved testimonials in a dedicated section on the homepage or a testimonials page.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Header.tsx",
+        "frontend/src/components/TestimonialSubmissionDialog.tsx",
+        "frontend/src/components/admin/TestimonialManagement.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/AdminPage.tsx",
+        "frontend/src/pages/HomePage.tsx",
+        "frontend/src/pages/TestimonialsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "user-approval@3.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-audit-and-improve-mobile-responsiveness-across-all-pages-ensure-navigation-cards-tables-hero-sections-dashboards-and-forms-are-fully-usable-on-small-screens-320px-768px-fix-any-layout-overflow-font-size-spacing-or-touch-target-issues-found",
+      "featureTitle": "Audit and improve mobile responsiveness across all pages. Ensure navigation, cards, tables, hero sections, dashboards, and forms are fully usable on small screens (320px–768px). Fix any layout overflow, font size, spacing, or touch target issues found.",
+      "files": [
+        "frontend/src/components/Footer.tsx",
+        "frontend/src/components/Header.tsx",
+        "frontend/src/pages/AdminPage.tsx",
+        "frontend/src/pages/FAQPage.tsx",
+        "frontend/src/pages/GDPDashboardPage.tsx",
+        "frontend/src/pages/HomePage.tsx",
+        "frontend/src/pages/MyProgressPage.tsx",
+        "frontend/src/pages/TestimonialsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "user-approval@3.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

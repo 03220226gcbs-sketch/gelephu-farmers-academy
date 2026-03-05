@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Gelephu Farmers Academy platform serving farmers with practical resources including library, training, GDP dashboard, success stories, store, blog, FAQ, search, language toggle, and downloadable resources. Building out user accounts, farmer testimonials, and mobile optimization.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-add-user-account-functionality-so-authenticated-farmers-can-track-their-training-progress-display-a-personal-dashboard-showing-enrolled-courses-completion-status-and-any-earned-achievements-or-milestones",
+      "title": "Add user account functionality so authenticated farmers can track their training progress. Display a personal dashboard showing enrolled courses, completion status, and any earned achievements or milestones.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-farmer-testimonials-section-where-real-testimonials-can-be-collected-and-displayed-over-time-include-a-submission-form-for-farmers-to-submit-their-own-testimonial-name-location-quote-farming-area-and-display-approved-testimonials-in-a-dedicated-section-on-the-homepage-or-a-testimonials-page",
+      "title": "Add a farmer testimonials section where real testimonials can be collected and displayed over time. Include a submission form for farmers to submit their own testimonial (name, location, quote, farming area) and display approved testimonials in a dedicated section on the homepage or a testimonials page.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-audit-and-improve-mobile-responsiveness-across-all-pages-ensure-navigation-cards-tables-hero-sections-dashboards-and-forms-are-fully-usable-on-small-screens-320px-768px-fix-any-layout-overflow-font-size-spacing-or-touch-target-issues-found",
+      "title": "Audit and improve mobile responsiveness across all pages. Ensure navigation, cards, tables, hero sections, dashboards, and forms are fully usable on small screens (320px–768px). Fix any layout overflow, font size, spacing, or touch target issues found.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "User accounts so farmers can track their progress",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Collect and display real farmer testimonials over time",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Mobile optimization check and improvements",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Gelephu Farmers Academy",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
